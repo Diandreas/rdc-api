@@ -1,8 +1,62 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\SpeechController;
+use App\Http\Controllers\Admin\NewsController;
+use App\Http\Controllers\Admin\QuoteController;
+use App\Http\Controllers\Admin\PhotoController;
+use App\Http\Controllers\Admin\VideoController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ContactMessageController;
+use App\Http\Controllers\Admin\SocialLinkController;
+use App\Http\Controllers\Admin\BiographyController;
 
+// Route d'accueil
 Route::get('/', function () {
     return view('welcome');
+})->name('welcome');
+
+// Routes d'authentification admin
+Route::prefix('admin')->group(function () {
+    // Routes publiques
+    Route::get('login', [AuthController::class, 'showLogin'])->name('admin.login');
+    Route::post('login', [AuthController::class, 'login'])->name('admin.login.post');
+    Route::post('logout', [AuthController::class, 'logout'])->name('admin.logout');
+    
+    // Routes protégées par authentification
+    Route::middleware(['auth.admin'])->group(function () {
+        Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
+        
+        // Discours
+        Route::resource('speeches', SpeechController::class)->names('admin.speeches');
+        
+        // Actualités
+        Route::resource('news', NewsController::class)->names('admin.news');
+        
+        // Citations
+        Route::resource('quotes', QuoteController::class)->names('admin.quotes');
+        
+        // Photos
+        Route::resource('photos', PhotoController::class)->names('admin.photos');
+        
+        // Vidéos
+        Route::resource('videos', VideoController::class)->names('admin.videos');
+        
+        // Catégories
+        Route::resource('categories', CategoryController::class)->names('admin.categories');
+        
+        // Messages de contact
+        Route::get('contact-messages', [ContactMessageController::class, 'index'])->name('admin.contact-messages.index');
+        Route::get('contact-messages/{message}', [ContactMessageController::class, 'show'])->name('admin.contact-messages.show');
+        Route::delete('contact-messages/{message}', [ContactMessageController::class, 'destroy'])->name('admin.contact-messages.destroy');
+        
+        // Réseaux sociaux
+        Route::resource('social-links', SocialLinkController::class)->names('admin.social-links');
+        
+        // Biographie
+        Route::resource('biographies', BiographyController::class)->names('admin.biographies');
+    });
 });
 
