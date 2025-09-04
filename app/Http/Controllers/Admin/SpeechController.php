@@ -31,7 +31,7 @@ class SpeechController extends Controller
             'event_type' => 'required|string|max:255',
             'speech_date' => 'required|date',
             'category_id' => 'required|exists:categories,id',
-            'is_featured' => 'boolean',
+            'is_featured' => 'nullable|boolean',
             'audio_url' => 'nullable|url',
             'video_url' => 'nullable|url',
         ]);
@@ -66,7 +66,7 @@ class SpeechController extends Controller
             'event_type' => 'required|string|max:255',
             'speech_date' => 'required|date',
             'category_id' => 'required|exists:categories,id',
-            'is_featured' => 'boolean',
+            'is_featured' => 'nullable|boolean',
             'audio_url' => 'nullable|url',
             'video_url' => 'nullable|url',
         ]);

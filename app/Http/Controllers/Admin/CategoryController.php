@@ -27,6 +27,9 @@ class CategoryController extends Controller
             'color' => 'required|string|max:7|regex:/^#[0-9A-F]{6}$/i',
         ]);
 
+        // Générer le slug automatiquement
+        $validated['slug'] = \Str::slug($validated['name']);
+
         Category::create($validated);
 
         return redirect()->route('admin.categories.index')
@@ -50,6 +53,9 @@ class CategoryController extends Controller
             'description' => 'nullable|string|max:500',
             'color' => 'required|string|max:7|regex:/^#[0-9A-F]{6}$/i',
         ]);
+
+        // Générer le slug automatiquement
+        $validated['slug'] = \Str::slug($validated['name']);
 
         $category->update($validated);
 

@@ -1,6 +1,3 @@
-// Import des styles CSS
-import '../css/app.css';
-
 // Fonctionnalités JavaScript pour l'admin
 document.addEventListener('DOMContentLoaded', function() {
     // Gestion du mode sombre
@@ -136,4 +133,3 @@ window.adminUtils = {
         return new Intl.NumberFormat('fr-FR').format(number);
     }
 };
-
