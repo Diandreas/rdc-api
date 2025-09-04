@@ -223,3 +223,4 @@ $validated['field_name'] = $request->has('field_name');
 ```
 
 **La gestion des champs boolean est maintenant robuste et prête pour la production !** 🚀
+

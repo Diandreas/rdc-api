@@ -239,3 +239,4 @@ php artisan view:clear
 - **Monitoring** : Surveiller les performances
 
 **La solution hybride offre le meilleur compromis entre performance, stabilité et facilité de maintenance !** 🚀
+

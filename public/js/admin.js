@@ -133,3 +133,4 @@ window.adminUtils = {
         return new Intl.NumberFormat('fr-FR').format(number);
     }
 };
+

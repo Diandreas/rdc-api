@@ -237,3 +237,4 @@ curl -s http://localhost:8001/admin/speeches/create | head -5
 - **Fallback** : Valeurs par défaut avec `old()`
 
 **Le formulaire de discours est maintenant robuste et prêt pour la production !** 🚀
+

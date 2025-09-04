@@ -206,3 +206,4 @@ curl -s http://localhost:8001/admin/speeches/1 | head -5
 // ✅ Pour les formulaires
 value="{{ old('field', $model->date_field ? $model->date_field->format('Y-m-d') : '') }}"
 ```
+

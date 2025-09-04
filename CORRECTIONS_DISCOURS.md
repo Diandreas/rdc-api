@@ -218,3 +218,4 @@ Pour compléter l'interface administrative, il reste à créer les vues pour :
 4. **Biographies** : `show.blade.php`, `edit.blade.php`
 
 **L'interface administrative sera alors complètement fonctionnelle !** 🎯
+

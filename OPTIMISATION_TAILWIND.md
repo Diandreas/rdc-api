@@ -292,3 +292,4 @@ ls -la public/build/
 # Tester en production
 php artisan serve --env=production
 ```
+

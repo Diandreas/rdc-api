@@ -154,7 +154,7 @@
             <!-- Options -->
             <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
                 <div class="flex items-center">
-                    <input type="checkbox" name="is_featured" id="is_featured" 
+                    <input type="checkbox" name="is_featured" id="is_featured" value="1"
                            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                            {{ old('is_featured') ? 'checked' : '' }}>
                     <label for="is_featured" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">

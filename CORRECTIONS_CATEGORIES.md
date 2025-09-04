@@ -154,3 +154,4 @@ Les catégories sont maintenant **100% fonctionnelles** avec :
 6. **Design responsive** et accessible
 
 **La gestion des catégories est maintenant prête à être utilisée !** 🚀
+
