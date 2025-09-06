@@ -147,7 +147,7 @@
                     <li>
                         <a href="{{ route('admin.social-links.index') }}" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 {{ request()->routeIs('admin.social-links.*') ? 'bg-blue-50 dark:bg-gray-700 text-blue-600 dark:text-blue-400' : '' }}">
                             <i class="fas fa-share-alt w-5 h-5 mr-3"></i>
-                            <span>Réseaux sociaux</span>
+                            <span>Actes du chef de l'état</span>
                         </a>
                     </li>
                     

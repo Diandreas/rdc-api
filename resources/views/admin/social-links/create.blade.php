@@ -1,11 +1,11 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Nouveau Réseau Social')
+@section('title', 'Nouvel Acte du Chef de l\'État')
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Nouveau Réseau Social</h1>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Nouvel Acte du Chef de l'État</h1>
         <a href="{{ route('admin.social-links.index') }}" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200">
             <i class="fas fa-arrow-left mr-2"></i>Retour
         </a>
@@ -96,7 +96,7 @@
                     <!-- Boutons d'action -->
                     <div class="space-y-3">
                         <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200">
-                            <i class="fas fa-save mr-2"></i>Créer le réseau social
+                            <i class="fas fa-save mr-2"></i>Créer l'acte
                         </button>
                         
                         <a href="{{ route('admin.social-links.index') }}" class="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200 inline-block text-center">

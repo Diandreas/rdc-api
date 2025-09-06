@@ -33,7 +33,7 @@ class SocialLinkController extends Controller
         SocialLink::create($validated);
 
         return redirect()->route('admin.social-links.index')
-            ->with('success', 'Réseau social ajouté avec succès.');
+            ->with('success', 'Acte du chef de l\'état ajouté avec succès.');
     }
 
     public function show(SocialLink $socialLink)
@@ -60,7 +60,7 @@ class SocialLinkController extends Controller
         $socialLink->update($validated);
 
         return redirect()->route('admin.social-links.index')
-            ->with('success', 'Réseau social mis à jour avec succès.');
+            ->with('success', 'Acte du chef de l\'état mis à jour avec succès.');
     }
 
     public function destroy(SocialLink $socialLink)
@@ -68,6 +68,6 @@ class SocialLinkController extends Controller
         $socialLink->delete();
 
         return redirect()->route('admin.social-links.index')
-            ->with('success', 'Réseau social supprimé avec succès.');
+            ->with('success', 'Acte du chef de l\'état supprimé avec succès.');
     }
 }

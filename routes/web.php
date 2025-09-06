@@ -47,7 +47,7 @@ Route::prefix('admin')->group(function () {
         Route::resource('categories', CategoryController::class)->names('admin.categories');
         
         
-        // Réseaux sociaux
+        // Actes du chef de l'état
         Route::resource('social-links', SocialLinkController::class)->names('admin.social-links');
         
         // Biographie

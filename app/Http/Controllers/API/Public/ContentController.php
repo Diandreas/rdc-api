@@ -273,7 +273,7 @@ class ContentController extends Controller
     }
 
     /**
-     * Liste des réseaux sociaux
+     * Liste des actes du chef de l'état
      */
     public function socialLinks(): JsonResponse
     {
