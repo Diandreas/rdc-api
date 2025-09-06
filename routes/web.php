@@ -21,6 +21,11 @@ Route::get('/', function () {
 // Route pour changer de langue (accessible partout)
 Route::post('/language/switch', [LanguageController::class, 'switch'])->name('language.switch');
 
+// Route de test temporaire (à supprimer après résolution)
+Route::get('/test-language', function() {
+    return 'Language system working! Route: ' . route('language.switch');
+})->name('test.language');
+
 // Routes d'authentification admin
 Route::prefix('admin')->group(function () {
     // Routes publiques

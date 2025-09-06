@@ -25,15 +25,40 @@ class VideoController extends Controller
         $validated = $request->validate([
             'title' => 'required|string',
             'description' => 'nullable|string',
-            'video_url' => 'required|url',
+            'video_url' => 'nullable|url',
+            'video_file' => 'nullable|file|mimes:mp4,avi,mov,wmv,flv,webm,mkv|max:102400', // 100MB max
             'thumbnail_url' => 'nullable|url',
+            'thumbnail_file' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240', // 10MB max
             'duration' => 'nullable|string',
             'recorded_date' => 'required|date',
             'location' => 'nullable|string',
             'is_featured' => 'boolean',
         ]);
 
+        // Ensure either video_url or video_file is provided
+        if (!$request->hasFile('video_file') && !$request->filled('video_url')) {
+            return redirect()->back()
+                ->withErrors(['video' => __('admin.video_source_required')])
+                ->withInput();
+        }
+
         $validated['is_featured'] = $request->has('is_featured');
+        
+        // Handle video file upload
+        if ($request->hasFile('video_file')) {
+            $videoFile = $request->file('video_file');
+            $videoFileName = time() . '_' . Str::slug(pathinfo($videoFile->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $videoFile->getClientOriginalExtension();
+            $videoPath = $videoFile->storeAs('videos', $videoFileName, 'public');
+            $validated['video_url'] = asset('storage/' . $videoPath);
+        }
+
+        // Handle thumbnail file upload
+        if ($request->hasFile('thumbnail_file')) {
+            $thumbnailFile = $request->file('thumbnail_file');
+            $thumbnailFileName = time() . '_thumb_' . Str::slug(pathinfo($thumbnailFile->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $thumbnailFile->getClientOriginalExtension();
+            $thumbnailPath = $thumbnailFile->storeAs('thumbnails', $thumbnailFileName, 'public');
+            $validated['thumbnail_url'] = asset('storage/' . $thumbnailPath);
+        }
         
         // Generate unique slug from title
         $baseSlug = Str::slug($validated['title']);
@@ -46,11 +71,19 @@ class VideoController extends Controller
         }
         
         $validated['slug'] = $slug;
+        
+        // Convert empty strings to null for nullable fields
+        $nullableFields = ['description', 'location', 'duration', 'video_url', 'thumbnail_url'];
+        foreach ($nullableFields as $field) {
+            if (isset($validated[$field]) && $validated[$field] === '') {
+                $validated[$field] = null;
+            }
+        }
 
         Video::create($validated);
 
         return redirect()->route('admin.videos.index')
-            ->with('success', 'Vidéo ajoutée avec succès.');
+            ->with('success', __('admin.video_created_successfully'));
     }
 
     public function show(Video $video)
@@ -68,15 +101,40 @@ class VideoController extends Controller
         $validated = $request->validate([
             'title' => 'required|string',
             'description' => 'nullable|string',
-            'video_url' => 'required|url',
+            'video_url' => 'nullable|url',
+            'video_file' => 'nullable|file|mimes:mp4,avi,mov,wmv,flv,webm,mkv|max:102400', // 100MB max
             'thumbnail_url' => 'nullable|url',
+            'thumbnail_file' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240', // 10MB max
             'duration' => 'nullable|string',
             'recorded_date' => 'required|date',
             'location' => 'nullable|string',
             'is_featured' => 'boolean',
         ]);
 
+        // Ensure either video_url or video_file is provided (unless keeping existing)
+        if (!$request->hasFile('video_file') && !$request->filled('video_url') && !$video->video_url) {
+            return redirect()->back()
+                ->withErrors(['video' => __('admin.video_source_required')])
+                ->withInput();
+        }
+
         $validated['is_featured'] = $request->has('is_featured');
+        
+        // Handle video file upload
+        if ($request->hasFile('video_file')) {
+            $videoFile = $request->file('video_file');
+            $videoFileName = time() . '_' . Str::slug(pathinfo($videoFile->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $videoFile->getClientOriginalExtension();
+            $videoPath = $videoFile->storeAs('videos', $videoFileName, 'public');
+            $validated['video_url'] = asset('storage/' . $videoPath);
+        }
+
+        // Handle thumbnail file upload
+        if ($request->hasFile('thumbnail_file')) {
+            $thumbnailFile = $request->file('thumbnail_file');
+            $thumbnailFileName = time() . '_thumb_' . Str::slug(pathinfo($thumbnailFile->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $thumbnailFile->getClientOriginalExtension();
+            $thumbnailPath = $thumbnailFile->storeAs('thumbnails', $thumbnailFileName, 'public');
+            $validated['thumbnail_url'] = asset('storage/' . $thumbnailPath);
+        }
         
         // Generate unique slug from title if title has changed
         if ($video->title !== $validated['title']) {
@@ -91,11 +149,19 @@ class VideoController extends Controller
             
             $validated['slug'] = $slug;
         }
+        
+        // Convert empty strings to null for nullable fields
+        $nullableFields = ['description', 'location', 'duration', 'video_url', 'thumbnail_url'];
+        foreach ($nullableFields as $field) {
+            if (isset($validated[$field]) && $validated[$field] === '') {
+                $validated[$field] = null;
+            }
+        }
 
         $video->update($validated);
 
         return redirect()->route('admin.videos.index')
-            ->with('success', 'Vidéo mise à jour avec succès.');
+            ->with('success', __('admin.video_updated_successfully'));
     }
 
     public function destroy(Video $video)

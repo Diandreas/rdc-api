@@ -441,6 +441,32 @@ return [
     'error_too_many_requests' => 'Trop de requêtes',
     'error_service_unavailable' => 'Service indisponible',
     
+    // Video upload messages
+    'video_source_required' => 'Vous devez fournir soit une URL vidéo soit un fichier vidéo',
+    'video_file_uploaded' => 'Fichier vidéo téléchargé avec succès',
+    'thumbnail_file_uploaded' => 'Miniature téléchargée avec succès',
+    'video_file_too_large' => 'Le fichier vidéo est trop volumineux (max 100MB)',
+    'thumbnail_file_too_large' => 'Le fichier miniature est trop volumineux (max 10MB)',
+    'video_file_type_invalid' => 'Type de fichier vidéo non supporté',
+    'thumbnail_file_type_invalid' => 'Type de fichier miniature non supporté',
+    
+    // Video specific translations
+    'video_source' => 'Source vidéo',
+    'video_url' => 'URL vidéo',
+    'video_file' => 'Fichier vidéo',
+    'video_title_placeholder' => 'Titre de la vidéo',
+    'video_description_placeholder' => 'Description de la vidéo',
+    'video_url_placeholder' => 'https://youtube.com/watch?v=... ou https://vimeo.com/...',
+    'video_file_formats' => 'Formats supportés: MP4, AVI, MOV, WMV, FLV, WebM, MKV',
+    'current_video' => 'Vidéo actuelle',
+    'thumbnail_file' => 'Fichier miniature',
+    'thumbnail_url_placeholder' => 'https://example.com/thumbnail.jpg',
+    'thumbnail_preview' => 'Aperçu de la miniature',
+    'current_thumbnail' => 'Miniature actuelle',
+    'browser_not_support_video' => 'Votre navigateur ne supporte pas la lecture vidéo',
+    'max_size' => 'Taille max',
+    'image_file_formats' => 'Formats supportés: JPEG, PNG, JPG, GIF, WebP',
+    
     // Common labels
     'not_specified' => 'Non spécifié',
     'manage_president_speeches' => 'Gérez les discours du président',
