@@ -17,6 +17,7 @@ class Photo extends Model implements HasMedia
         'title',
         'slug',
         'description',
+        'image_url',
         'category_id',
         'photographer',
         'location',

@@ -150,13 +150,21 @@
                         <h3 class="text-lg font-medium text-gray-900 dark:text-white">Options</h3>
                         
                         <!-- Priorité -->
-                        <div class="flex items-center">
-                            <input type="checkbox" id="priority" name="priority" value="1" 
-                                   {{ old('priority', $news->priority) ? 'checked' : '' }}
-                                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                            <label for="priority" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
-                                Actualité prioritaire
+                        <div>
+                            <label for="priority" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Priorité <span class="text-red-500">*</span>
                             </label>
+                            <select id="priority" name="priority" required
+                                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                                <option value="">Sélectionner une priorité</option>
+                                <option value="low" {{ old('priority', $news->priority) == 'low' ? 'selected' : '' }}>Faible</option>
+                                <option value="medium" {{ old('priority', $news->priority) == 'medium' ? 'selected' : '' }}>Normale</option>
+                                <option value="high" {{ old('priority', $news->priority) == 'high' ? 'selected' : '' }}>Élevée</option>
+                                <option value="urgent" {{ old('priority', $news->priority) == 'urgent' ? 'selected' : '' }}>Urgente</option>
+                            </select>
+                            @error('priority')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <!-- À la une -->

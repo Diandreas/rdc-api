@@ -29,7 +29,7 @@ class NewsController extends Controller
             'content' => 'required|string',
             'category_id' => 'required|exists:categories,id',
             'is_featured' => 'boolean',
-            'priority' => 'required|in:low,normal,high,urgent',
+            'priority' => 'required|in:low,medium,high,urgent',
             'published_at' => 'nullable|date',
         ]);
 
@@ -62,7 +62,7 @@ class NewsController extends Controller
             'content' => 'required|string',
             'category_id' => 'required|exists:categories,id',
             'is_featured' => 'boolean',
-            'priority' => 'required|in:low,normal,high,urgent',
+            'priority' => 'required|in:low,medium,high,urgent',
             'published_at' => 'nullable|date',
         ]);
 

@@ -82,11 +82,11 @@
                                 </div>
                                 <div class="ml-4">
                                     <div class="text-sm font-medium text-gray-900 dark:text-white mb-1">
-                                        "{{ Str::limit($item->text, 80) }}"
+                                        "{{ Str::limit($item->content, 80) }}"
                                     </div>
-                                    @if($item->author)
+                                    @if($item->metadata['author'] ?? null)
                                         <div class="text-sm text-gray-500 dark:text-gray-400">
-                                            — {{ $item->author }}
+                                            — {{ $item->metadata['author'] }}
                                         </div>
                                     @endif
                                 </div>
@@ -102,7 +102,7 @@
                             {{ $item->location ?: 'Non spécifiée' }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            @if($item->featured)
+                            @if($item->is_featured)
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
                                     <i class="fas fa-star mr-1"></i>À la une
                                 </span>

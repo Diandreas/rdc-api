@@ -58,4 +58,19 @@ class Quote extends Model
     {
         return \Str::limit($this->content, 100);
     }
+
+    public function getAuthorAttribute()
+    {
+        return $this->metadata['author'] ?? null;
+    }
+
+    public function getTextAttribute()
+    {
+        return $this->content;
+    }
+
+    public function getFeaturedAttribute()
+    {
+        return $this->is_featured;
+    }
 }

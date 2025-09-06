@@ -31,6 +31,10 @@ class PhotoController extends Controller
         ]);
 
         $validated['is_featured'] = $request->has('is_featured');
+        $validated['slug'] = \Str::slug($validated['title']);
+        $validated['photo_date'] = $validated['event_date'] ?? now()->toDateString();
+        $validated['is_published'] = true;
+        $validated['published_at'] = now();
 
         Photo::create($validated);
 
@@ -60,6 +64,8 @@ class PhotoController extends Controller
         ]);
 
         $validated['is_featured'] = $request->has('is_featured');
+        $validated['slug'] = \Str::slug($validated['title']);
+        $validated['photo_date'] = $validated['event_date'] ?? $photo->photo_date;
 
         $photo->update($validated);
 

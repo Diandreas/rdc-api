@@ -23,12 +23,30 @@ class QuoteController extends Controller
     {
         $validated = $request->validate([
             'text' => 'required|string|max:1000',
+            'author' => 'required|string|max:255',
             'context' => 'nullable|string|max:255',
-            'date' => 'nullable|date',
+            'quote_date' => 'nullable|date',
             'location' => 'nullable|string|max:255',
+            'featured' => 'nullable',
         ]);
 
-        Quote::create($validated);
+        // Convertir les noms de champs pour correspondre à la base de données
+        $data = [
+            'content' => $validated['text'],
+            'context' => $validated['context'],
+            'quote_date' => $validated['quote_date'],
+            'location' => $validated['location'],
+            'is_featured' => $request->has('featured'),
+            'is_published' => true,
+            'published_at' => now(),
+            'metadata' => [
+                'author' => $validated['author'],
+                'created_by' => auth()->id(),
+                'created_at' => now()->toISOString()
+            ]
+        ];
+
+        Quote::create($data);
 
         return redirect()->route('admin.quotes.index')
             ->with('success', 'Citation créée avec succès.');
@@ -48,12 +66,28 @@ class QuoteController extends Controller
     {
         $validated = $request->validate([
             'text' => 'required|string|max:1000',
+            'author' => 'required|string|max:255',
             'context' => 'nullable|string|max:255',
-            'date' => 'nullable|date',
+            'quote_date' => 'nullable|date',
             'location' => 'nullable|string|max:255',
+            'featured' => 'nullable',
         ]);
 
-        $quote->update($validated);
+        // Convertir les noms de champs pour correspondre à la base de données
+        $data = [
+            'content' => $validated['text'],
+            'context' => $validated['context'],
+            'quote_date' => $validated['quote_date'],
+            'location' => $validated['location'],
+            'is_featured' => $request->has('featured'),
+            'metadata' => array_merge($quote->metadata ?? [], [
+                'author' => $validated['author'],
+                'updated_by' => auth()->id(),
+                'updated_at' => now()->toISOString()
+            ])
+        ];
+
+        $quote->update($data);
 
         return redirect()->route('admin.quotes.index')
             ->with('success', 'Citation mise à jour avec succès.');
