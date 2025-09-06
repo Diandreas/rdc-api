@@ -47,6 +47,26 @@
 
                 <!-- Colonne latérale -->
                 <div class="space-y-6">
+                    <!-- Section -->
+                    <div>
+                        <label for="section" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Section <span class="text-red-500">*</span>
+                        </label>
+                        <select id="section" name="section" required
+                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                            <option value="">Sélectionner une section</option>
+                            <option value="early_life" {{ old('section') == 'early_life' ? 'selected' : '' }}>Enfance</option>
+                            <option value="education" {{ old('section') == 'education' ? 'selected' : '' }}>Éducation</option>
+                            <option value="career" {{ old('section') == 'career' ? 'selected' : '' }}>Carrière</option>
+                            <option value="presidency" {{ old('section') == 'presidency' ? 'selected' : '' }}>Présidence</option>
+                            <option value="achievements" {{ old('section') == 'achievements' ? 'selected' : '' }}>Réalisations</option>
+                            <option value="personal" {{ old('section') == 'personal' ? 'selected' : '' }}>Vie personnelle</option>
+                        </select>
+                        @error('section')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+
                     <!-- Ordre -->
                     <div>
                         <label for="order" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">

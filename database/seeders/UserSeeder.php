@@ -37,9 +37,6 @@ class UserSeeder extends Seeder
             'edit quotes',
             'delete quotes',
             'publish quotes',
-            'view contact messages',
-            'reply contact messages',
-            'delete contact messages',
             'manage categories',
             'manage tags',
             'manage social links',
@@ -58,7 +55,6 @@ class UserSeeder extends Seeder
             'view speeches', 'create speeches', 'edit speeches',
             'view news', 'create news', 'edit news',
             'view quotes', 'create quotes', 'edit quotes',
-            'view contact messages'
         ]);
 
         // Créer l'utilisateur admin

@@ -9,7 +9,6 @@ use App\Http\Controllers\Admin\QuoteController;
 use App\Http\Controllers\Admin\PhotoController;
 use App\Http\Controllers\Admin\VideoController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\ContactMessageController;
 use App\Http\Controllers\Admin\SocialLinkController;
 use App\Http\Controllers\Admin\BiographyController;
 
@@ -47,10 +46,6 @@ Route::prefix('admin')->group(function () {
         // Catégories
         Route::resource('categories', CategoryController::class)->names('admin.categories');
         
-        // Messages de contact
-        Route::get('contact-messages', [ContactMessageController::class, 'index'])->name('admin.contact-messages.index');
-        Route::get('contact-messages/{message}', [ContactMessageController::class, 'show'])->name('admin.contact-messages.show');
-        Route::delete('contact-messages/{message}', [ContactMessageController::class, 'destroy'])->name('admin.contact-messages.destroy');
         
         // Réseaux sociaux
         Route::resource('social-links', SocialLinkController::class)->names('admin.social-links');

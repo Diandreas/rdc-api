@@ -23,13 +23,13 @@ class VideoController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string|max:500',
+            'title' => 'required|string',
+            'description' => 'nullable|string',
             'video_url' => 'required|url',
             'thumbnail_url' => 'nullable|url',
             'duration' => 'nullable|string|max:10',
             'recorded_date' => 'required|date',
-            'location' => 'nullable|string|max:255',
+            'location' => 'nullable|string',
             'is_featured' => 'boolean',
         ]);
 
@@ -66,13 +66,13 @@ class VideoController extends Controller
     public function update(Request $request, Video $video)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string|max:500',
+            'title' => 'required|string',
+            'description' => 'nullable|string',
             'video_url' => 'required|url',
             'thumbnail_url' => 'nullable|url',
             'duration' => 'nullable|string|max:10',
             'recorded_date' => 'required|date',
-            'location' => 'nullable|string|max:255',
+            'location' => 'nullable|string',
             'is_featured' => 'boolean',
         ]);
 

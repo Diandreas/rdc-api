@@ -24,8 +24,8 @@ class NewsController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'excerpt' => 'required|string|max:500',
+            'title' => 'required|string',
+            'excerpt' => 'required|string',
             'content' => 'required|string',
             'category_id' => 'required|exists:categories,id',
             'is_featured' => 'boolean',
@@ -57,8 +57,8 @@ class NewsController extends Controller
     public function update(Request $request, News $news)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'excerpt' => 'required|string|max:500',
+            'title' => 'required|string',
+            'excerpt' => 'required|string',
             'content' => 'required|string',
             'category_id' => 'required|exists:categories,id',
             'is_featured' => 'boolean',

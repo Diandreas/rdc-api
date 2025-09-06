@@ -22,11 +22,11 @@ class PhotoController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string|max:500',
+            'title' => 'required|string',
+            'description' => 'nullable|string',
             'image_url' => 'required|url',
             'event_date' => 'nullable|date',
-            'location' => 'nullable|string|max:255',
+            'location' => 'nullable|string',
             'is_featured' => 'boolean',
         ]);
 
@@ -55,11 +55,11 @@ class PhotoController extends Controller
     public function update(Request $request, Photo $photo)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string|max:500',
+            'title' => 'required|string',
+            'description' => 'nullable|string',
             'image_url' => 'required|url',
             'event_date' => 'nullable|date',
-            'location' => 'nullable|string|max:255',
+            'location' => 'nullable|string',
             'is_featured' => 'boolean',
         ]);
 
