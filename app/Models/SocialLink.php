@@ -11,18 +11,23 @@ class SocialLink extends Model
     use HasFactory;
 
     protected $fillable = [
-        'platform',
-        'username',
-        'url',
-        'icon',
-        'color',
+        'title',
         'description',
+        'content',
+        'act_type',
+        'act_number',
+        'signature_date',
+        'signature_location',
+        'document_url',
+        'is_featured',
         'is_active',
         'show_in_app',
         'sort_order'
     ];
 
     protected $casts = [
+        'signature_date' => 'date',
+        'is_featured' => 'boolean',
         'is_active' => 'boolean',
         'show_in_app' => 'boolean',
         'sort_order' => 'integer'

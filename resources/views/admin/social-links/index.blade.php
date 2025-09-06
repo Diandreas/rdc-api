@@ -18,13 +18,13 @@
                 <thead class="bg-gray-50 dark:bg-gray-700">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            Plateforme
+                            Titre
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            URL
+                            Type d'acte
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            Icône
+                            Date de signature
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                             Statut
@@ -38,29 +38,37 @@
                     @forelse($socialLinks ?? [] as $link)
                     <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm font-medium text-gray-900 dark:text-white">{{ $link->platform }}</div>
+                            <div class="text-sm font-medium text-gray-900 dark:text-white">{{ $link->title }}</div>
+                            @if($link->act_number)
+                                <div class="text-sm text-gray-500 dark:text-gray-400">N° {{ $link->act_number }}</div>
+                            @endif
                         </td>
-                        <td class="px-6 py-4">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                                {{ ucfirst($link->act_type) }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900 dark:text-white">
-                                <a href="{{ $link->url }}" target="_blank" class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
-                                    {{ Str::limit($link->url, 50) }}
-                                </a>
+                                {{ $link->signature_date ? $link->signature_date->format('d/m/Y') : '-' }}
                             </div>
+                            @if($link->signature_location)
+                                <div class="text-sm text-gray-500 dark:text-gray-400">{{ $link->signature_location }}</div>
+                            @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="flex items-center">
-                                <i class="{{ $link->icon }} text-2xl mr-2"></i>
-                                <span class="text-sm text-gray-500 dark:text-gray-400">{{ $link->icon }}</span>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            @if($link->active)
+                            @if($link->is_active)
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
                                     <i class="fas fa-check mr-1"></i>Actif
                                 </span>
                             @else
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200">
                                     <i class="fas fa-times mr-1"></i>Inactif
+                                </span>
+                            @endif
+                            @if($link->is_featured)
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 ml-2">
+                                    <i class="fas fa-star mr-1"></i>Mis en avant
                                 </span>
                             @endif
                         </td>
