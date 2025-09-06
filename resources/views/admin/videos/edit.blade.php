@@ -97,15 +97,15 @@
 
                 <!-- Colonne latérale -->
                 <div class="space-y-6">
-                    <!-- Date de l'événement -->
+                    <!-- Date d'enregistrement -->
                     <div>
-                        <label for="event_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Date de l'événement
+                        <label for="recorded_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Date d'enregistrement <span class="text-red-500">*</span>
                         </label>
-                        <input type="date" id="event_date" name="event_date" 
-                               value="{{ old('event_date', $video->event_date ? $video->event_date->format('Y-m-d') : '') }}"
+                        <input type="date" id="recorded_date" name="recorded_date" 
+                               value="{{ old('recorded_date', $video->recorded_date ? $video->recorded_date->format('Y-m-d') : '') }}" required
                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                        @error('event_date')
+                        @error('recorded_date')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>

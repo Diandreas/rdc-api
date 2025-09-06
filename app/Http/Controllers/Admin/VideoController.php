@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Video;
+use Illuminate\Support\Str;
 
 class VideoController extends Controller
 {
@@ -27,12 +28,24 @@ class VideoController extends Controller
             'video_url' => 'required|url',
             'thumbnail_url' => 'nullable|url',
             'duration' => 'nullable|string|max:10',
-            'event_date' => 'nullable|date',
+            'recorded_date' => 'required|date',
             'location' => 'nullable|string|max:255',
             'is_featured' => 'boolean',
         ]);
 
         $validated['is_featured'] = $request->has('is_featured');
+        
+        // Generate unique slug from title
+        $baseSlug = Str::slug($validated['title']);
+        $slug = $baseSlug;
+        $counter = 1;
+        
+        while (Video::where('slug', $slug)->exists()) {
+            $slug = $baseSlug . '-' . $counter;
+            $counter++;
+        }
+        
+        $validated['slug'] = $slug;
 
         Video::create($validated);
 
@@ -58,12 +71,26 @@ class VideoController extends Controller
             'video_url' => 'required|url',
             'thumbnail_url' => 'nullable|url',
             'duration' => 'nullable|string|max:10',
-            'event_date' => 'nullable|date',
+            'recorded_date' => 'required|date',
             'location' => 'nullable|string|max:255',
             'is_featured' => 'boolean',
         ]);
 
         $validated['is_featured'] = $request->has('is_featured');
+        
+        // Generate unique slug from title if title has changed
+        if ($video->title !== $validated['title']) {
+            $baseSlug = Str::slug($validated['title']);
+            $slug = $baseSlug;
+            $counter = 1;
+            
+            while (Video::where('slug', $slug)->where('id', '!=', $video->id)->exists()) {
+                $slug = $baseSlug . '-' . $counter;
+                $counter++;
+            }
+            
+            $validated['slug'] = $slug;
+        }
 
         $video->update($validated);
 
