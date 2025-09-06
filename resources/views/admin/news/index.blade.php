@@ -1,13 +1,13 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Gestion des Actualités')
+@section('title', __('admin.news_management'))
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Gestion des Actualités</h1>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ __('admin.news_management') }}</h1>
         <a href="{{ route('admin.news.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200">
-            <i class="fas fa-plus mr-2"></i>Nouvelle Actualité
+            <i class="fas fa-plus mr-2"></i>{{ __('admin.new_news') }}
         </a>
     </div>
 
@@ -15,24 +15,24 @@
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-                <label for="search" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Rechercher</label>
-                <input type="text" id="search" placeholder="Rechercher par titre..." class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                <label for="search" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ __('admin.search') }}</label>
+                <input type="text" id="search" placeholder="{{ __('admin.search_by_title') }}" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
             </div>
             <div>
-                <label for="category" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Catégorie</label>
+                <label for="category" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ __('admin.category') }}</label>
                 <select id="category" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                    <option value="">Toutes les catégories</option>
+                    <option value="">{{ __('admin.all_categories') }}</option>
                     @foreach($categories ?? [] as $category)
                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
                 </select>
             </div>
             <div>
-                <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Statut</label>
+                <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ __('admin.status') }}</label>
                 <select id="status" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                    <option value="">Tous les statuts</option>
-                    <option value="published">Publié</option>
-                    <option value="draft">Brouillon</option>
+                    <option value="">{{ __('admin.all_statuses') }}</option>
+                    <option value="published">{{ __('admin.published') }}</option>
+                    <option value="draft">{{ __('admin.draft') }}</option>
                 </select>
             </div>
         </div>
@@ -45,22 +45,22 @@
                 <thead class="bg-gray-50 dark:bg-gray-700">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            Titre
+                            {{ __('admin.title') }}
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            Catégorie
+                            {{ __('admin.category') }}
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            Date
+                            {{ __('admin.published_date') }}
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            Statut
+                            {{ __('admin.status') }}
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                             Priorité
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            Actions
+                            {{ __('admin.actions') }}
                         </th>
                     </tr>
                 </thead>
@@ -100,16 +100,16 @@
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                            {{ $item->published_at ? $item->published_at->format('d/m/Y H:i') : 'Non publié' }}
+                            {{ $item->published_at ? $item->published_at->format('d/m/Y H:i') : __('admin.unpublished') }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             @if($item->published_at)
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                                    <i class="fas fa-check mr-1"></i>Publié
+                                    <i class="fas fa-check mr-1"></i>{{ __('admin.published') }}
                                 </span>
                             @else
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200">
-                                    <i class="fas fa-clock mr-1"></i>Brouillon
+                                    <i class="fas fa-clock mr-1"></i>{{ __('admin.draft') }}
                                 </span>
                             @endif
                         </td>
@@ -130,7 +130,7 @@
                                 <a href="{{ route('admin.news.edit', $item) }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <form action="{{ route('admin.news.destroy', $item) }}" method="POST" class="inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette actualité ?')">
+                                <form action="{{ route('admin.news.destroy', $item) }}" method="POST" class="inline" onsubmit="return confirm('{{ __('admin.confirm_delete_news') }}')">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
@@ -145,9 +145,9 @@
                         <td colspan="6" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
                             <div class="flex flex-col items-center">
                                 <i class="fas fa-newspaper text-4xl mb-2"></i>
-                                <p>Aucune actualité trouvée</p>
+                                <p>{{ __('admin.no_news_found') }}</p>
                                 <a href="{{ route('admin.news.create') }}" class="mt-2 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
-                                    Créer la première actualité
+                                    {{ __('admin.create_first_news') }}
                                 </a>
                             </div>
                         </td>

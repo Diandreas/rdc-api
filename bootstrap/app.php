@@ -15,6 +15,12 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => \App\Http\Middleware\RoleMiddleware::class,
             'auth.admin' => \App\Http\Middleware\RedirectIfNotAuthenticated::class,
+            'setlocale' => \App\Http\Middleware\SetLocale::class,
+        ]);
+        
+        // Apply locale middleware globally
+        $middleware->web(append: [
+            \App\Http\Middleware\SetLocale::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

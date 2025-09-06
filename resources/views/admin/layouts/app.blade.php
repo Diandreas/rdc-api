@@ -91,42 +91,42 @@
                     <li>
                         <a href="{{ route('admin.dashboard') }}" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 {{ request()->routeIs('admin.dashboard') ? 'bg-blue-50 dark:bg-gray-700 text-blue-600 dark:text-blue-400' : '' }}">
                             <i class="fas fa-tachometer-alt w-5 h-5 mr-3"></i>
-                            <span>Tableau de bord</span>
+                            <span>{{ __('admin.dashboard') }}</span>
                         </a>
                     </li>
                     
                     <li>
                         <a href="{{ route('admin.speeches.index') }}" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 {{ request()->routeIs('admin.speeches.*') ? 'bg-blue-50 dark:bg-gray-700 text-blue-600 dark:text-blue-400' : '' }}">
                             <i class="fas fa-microphone w-5 h-5 mr-3"></i>
-                            <span>Discours</span>
+                            <span>{{ __('admin.speeches') }}</span>
                         </a>
                     </li>
                     
                     <li>
                         <a href="{{ route('admin.news.index') }}" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 {{ request()->routeIs('admin.news.*') ? 'bg-blue-50 dark:bg-gray-700 text-blue-600 dark:text-blue-400' : '' }}">
                             <i class="fas fa-newspaper w-5 h-5 mr-3"></i>
-                            <span>Actualités</span>
+                            <span>{{ __('admin.news') }}</span>
                         </a>
                     </li>
                     
                     <li>
                         <a href="{{ route('admin.quotes.index') }}" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 {{ request()->routeIs('admin.quotes.*') ? 'bg-blue-50 dark:bg-gray-700 text-blue-600 dark:text-blue-400' : '' }}">
                             <i class="fas fa-quote-right w-5 h-5 mr-3"></i>
-                            <span>Citations</span>
+                            <span>{{ __('admin.quotes') }}</span>
                         </a>
                     </li>
                     
                     <li>
                         <a href="{{ route('admin.photos.index') }}" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 {{ request()->routeIs('admin.photos.*') ? 'bg-blue-50 dark:bg-gray-700 text-blue-600 dark:text-blue-400' : '' }}">
                             <i class="fas fa-images w-5 h-5 mr-3"></i>
-                            <span>Photos</span>
+                            <span>{{ __('admin.photos') }}</span>
                         </a>
                     </li>
                     
                     <li>
                         <a href="{{ route('admin.videos.index') }}" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 {{ request()->routeIs('admin.videos.*') ? 'bg-blue-50 dark:bg-gray-700 text-blue-600 dark:text-blue-400' : '' }}">
                             <i class="fas fa-video w-5 h-5 mr-3"></i>
-                            <span>Vidéos</span>
+                            <span>{{ __('admin.videos') }}</span>
                         </a>
                     </li>
                 </ul>
@@ -139,7 +139,7 @@
                     <li>
                         <a href="{{ route('admin.categories.index') }}" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 {{ request()->routeIs('admin.categories.*') ? 'bg-blue-50 dark:bg-gray-700 text-blue-600 dark:text-blue-400' : '' }}">
                             <i class="fas fa-tags w-5 h-5 mr-3"></i>
-                            <span>Catégories</span>
+                            <span>{{ __('admin.categories') }}</span>
                         </a>
                     </li>
                     
@@ -147,14 +147,14 @@
                     <li>
                         <a href="{{ route('admin.social-links.index') }}" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 {{ request()->routeIs('admin.social-links.*') ? 'bg-blue-50 dark:bg-gray-700 text-blue-600 dark:text-blue-400' : '' }}">
                             <i class="fas fa-share-alt w-5 h-5 mr-3"></i>
-                            <span>Actes du chef de l'état</span>
+                            <span>{{ __('admin.social_links') }}</span>
                         </a>
                     </li>
                     
                     <li>
                         <a href="{{ route('admin.biographies.index') }}" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 {{ request()->routeIs('admin.biographies.*') ? 'bg-blue-50 dark:bg-gray-700 text-blue-600 dark:text-blue-400' : '' }}">
                             <i class="fas fa-user w-5 h-5 mr-3"></i>
-                            <span>Biographie</span>
+                            <span>{{ __('admin.biographies') }}</span>
                         </a>
                     </li>
                 </ul>
@@ -174,6 +174,17 @@
                     </div>
                     
                     <div class="flex items-center space-x-4">
+                        <!-- Language switcher -->
+                        <div class="relative">
+                            <form id="languageForm" method="POST" action="{{ route('language.switch') }}" class="inline">
+                                @csrf
+                                <select id="languageSelect" name="locale" class="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 text-sm rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="fr" {{ app()->getLocale() == 'fr' ? 'selected' : '' }}>🇫🇷 Français</option>
+                                    <option value="en" {{ app()->getLocale() == 'en' ? 'selected' : '' }}>🇺🇸 English</option>
+                                </select>
+                            </form>
+                        </div>
+                        
                         <!-- Dark mode toggle -->
                         <button id="darkModeToggle" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
                             <i class="fas fa-moon dark:hidden"></i>
@@ -199,7 +210,7 @@
                                     @csrf
                                     <button type="submit" class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
                                         <i class="fas fa-sign-out-alt mr-2"></i>
-                                        Se déconnecter
+                                        {{ __('admin.logout') }}
                                     </button>
                                 </form>
                             </div>
@@ -298,6 +309,11 @@
         // Save dark mode preference
         document.getElementById('darkModeToggle').addEventListener('click', function() {
             localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
+        });
+
+        // Language switcher
+        document.getElementById('languageSelect').addEventListener('change', function() {
+            document.getElementById('languageForm').submit();
         });
     </script>
 </body>

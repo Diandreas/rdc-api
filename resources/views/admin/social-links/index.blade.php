@@ -1,13 +1,13 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Gestion des Actes du Chef de l\'État')
+@section('title', __('admin.social_links_management'))
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Gestion des Actes du Chef de l'État</h1>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ __('admin.social_links_management') }}</h1>
         <a href="{{ route('admin.social-links.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200">
-            <i class="fas fa-plus mr-2"></i>Nouvel Acte
+            <i class="fas fa-plus mr-2"></i>{{ __('admin.new_social_link') }}
         </a>
     </div>
 

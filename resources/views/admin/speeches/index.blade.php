@@ -1,18 +1,18 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Gestion des discours')
+@section('title', __('admin.speeches_management'))
 
 @section('content')
 <div class="space-y-6">
     <!-- En-tête -->
     <div class="flex items-center justify-between">
         <div>
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Discours</h1>
-            <p class="text-gray-600 dark:text-gray-400">Gérez les discours du président</p>
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ __('admin.speeches') }}</h1>
+            <p class="text-gray-600 dark:text-gray-400">{{ __('admin.manage_president_speeches') }}</p>
         </div>
         <a href="{{ route('admin.speeches.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
             <i class="fas fa-plus mr-2"></i>
-            Nouveau discours
+            {{ __('admin.new_speech') }}
         </a>
     </div>
 

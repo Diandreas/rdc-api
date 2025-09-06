@@ -1,13 +1,13 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Gestion des Citations')
+@section('title', __('admin.quotes_management'))
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Gestion des Citations</h1>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ __('admin.quotes_management') }}</h1>
         <a href="{{ route('admin.quotes.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200">
-            <i class="fas fa-plus mr-2"></i>Nouvelle Citation
+            <i class="fas fa-plus mr-2"></i>{{ __('admin.new_quote') }}
         </a>
     </div>
 

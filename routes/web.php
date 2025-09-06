@@ -11,11 +11,15 @@ use App\Http\Controllers\Admin\VideoController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\SocialLinkController;
 use App\Http\Controllers\Admin\BiographyController;
+use App\Http\Controllers\LanguageController;
 
 // Route d'accueil
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
+
+// Route pour changer de langue (accessible partout)
+Route::post('/language/switch', [LanguageController::class, 'switch'])->name('language.switch');
 
 // Routes d'authentification admin
 Route::prefix('admin')->group(function () {
