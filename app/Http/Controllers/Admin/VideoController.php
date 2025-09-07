@@ -5,10 +5,18 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Video;
+use App\Services\FileCompressionService;
 use Illuminate\Support\Str;
 
 class VideoController extends Controller
 {
+    protected $compressionService;
+
+    public function __construct(FileCompressionService $compressionService)
+    {
+        $this->compressionService = $compressionService;
+    }
+
     public function index()
     {
         $videos = Video::latest()->paginate(10);
@@ -44,20 +52,32 @@ class VideoController extends Controller
 
         $validated['is_featured'] = $request->has('is_featured');
         
-        // Handle video file upload
+        // Handle video file upload with compression
         if ($request->hasFile('video_file')) {
-            $videoFile = $request->file('video_file');
-            $videoFileName = time() . '_' . Str::slug(pathinfo($videoFile->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $videoFile->getClientOriginalExtension();
-            $videoPath = $videoFile->storeAs('videos', $videoFileName, 'public');
-            $validated['video_url'] = route('file.serve', ['type' => 'videos', 'filename' => $videoFileName]);
+            try {
+                $videoFile = $request->file('video_file');
+                $compressedPath = $this->compressionService->compressVideo($videoFile, 'videos');
+                $videoFileName = basename($compressedPath);
+                $validated['video_url'] = route('file.serve', ['type' => 'videos', 'filename' => $videoFileName]);
+            } catch (\Exception $e) {
+                return redirect()->back()
+                    ->withErrors(['video_file' => 'Erreur lors de la compression de la vidéo: ' . $e->getMessage()])
+                    ->withInput();
+            }
         }
 
-        // Handle thumbnail file upload
+        // Handle thumbnail file upload with compression
         if ($request->hasFile('thumbnail_file')) {
-            $thumbnailFile = $request->file('thumbnail_file');
-            $thumbnailFileName = time() . '_thumb_' . Str::slug(pathinfo($thumbnailFile->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $thumbnailFile->getClientOriginalExtension();
-            $thumbnailPath = $thumbnailFile->storeAs('thumbnails', $thumbnailFileName, 'public');
-            $validated['thumbnail_url'] = route('file.serve', ['type' => 'thumbnails', 'filename' => $thumbnailFileName]);
+            try {
+                $thumbnailFile = $request->file('thumbnail_file');
+                $compressedPath = $this->compressionService->compressSingleImage($thumbnailFile, 'images');
+                $thumbnailFileName = basename($compressedPath);
+                $validated['thumbnail_url'] = route('file.serve', ['type' => 'images', 'filename' => $thumbnailFileName]);
+            } catch (\Exception $e) {
+                return redirect()->back()
+                    ->withErrors(['thumbnail_file' => 'Erreur lors de la compression de la miniature: ' . $e->getMessage()])
+                    ->withInput();
+            }
         }
         
         // Generate unique slug from title
@@ -120,20 +140,32 @@ class VideoController extends Controller
 
         $validated['is_featured'] = $request->has('is_featured');
         
-        // Handle video file upload
+        // Handle video file upload with compression
         if ($request->hasFile('video_file')) {
-            $videoFile = $request->file('video_file');
-            $videoFileName = time() . '_' . Str::slug(pathinfo($videoFile->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $videoFile->getClientOriginalExtension();
-            $videoPath = $videoFile->storeAs('videos', $videoFileName, 'public');
-            $validated['video_url'] = route('file.serve', ['type' => 'videos', 'filename' => $videoFileName]);
+            try {
+                $videoFile = $request->file('video_file');
+                $compressedPath = $this->compressionService->compressVideo($videoFile, 'videos');
+                $videoFileName = basename($compressedPath);
+                $validated['video_url'] = route('file.serve', ['type' => 'videos', 'filename' => $videoFileName]);
+            } catch (\Exception $e) {
+                return redirect()->back()
+                    ->withErrors(['video_file' => 'Erreur lors de la compression de la vidéo: ' . $e->getMessage()])
+                    ->withInput();
+            }
         }
 
-        // Handle thumbnail file upload
+        // Handle thumbnail file upload with compression
         if ($request->hasFile('thumbnail_file')) {
-            $thumbnailFile = $request->file('thumbnail_file');
-            $thumbnailFileName = time() . '_thumb_' . Str::slug(pathinfo($thumbnailFile->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $thumbnailFile->getClientOriginalExtension();
-            $thumbnailPath = $thumbnailFile->storeAs('thumbnails', $thumbnailFileName, 'public');
-            $validated['thumbnail_url'] = route('file.serve', ['type' => 'thumbnails', 'filename' => $thumbnailFileName]);
+            try {
+                $thumbnailFile = $request->file('thumbnail_file');
+                $compressedPath = $this->compressionService->compressSingleImage($thumbnailFile, 'images');
+                $thumbnailFileName = basename($compressedPath);
+                $validated['thumbnail_url'] = route('file.serve', ['type' => 'images', 'filename' => $thumbnailFileName]);
+            } catch (\Exception $e) {
+                return redirect()->back()
+                    ->withErrors(['thumbnail_file' => 'Erreur lors de la compression de la miniature: ' . $e->getMessage()])
+                    ->withInput();
+            }
         }
         
         // Generate unique slug from title if title has changed

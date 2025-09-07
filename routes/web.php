@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\SocialLinkController;
 use App\Http\Controllers\Admin\BiographyController;
 use App\Http\Controllers\Admin\StatisticsController;
+use App\Http\Controllers\Admin\StorageController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\FileController;
 
@@ -23,8 +24,16 @@ Route::get('/', function () {
 // Route pour changer de langue (accessible partout)
 Route::post('/language/switch', [LanguageController::class, 'switch'])->name('language.switch');
 
-// Routes pour servir les fichiers
+// Routes pour servir les fichiers avec compression et vues
 Route::get('/files/{type}/{filename}', [FileController::class, 'serve'])->name('file.serve');
+Route::get('/files/image/{filename}', [FileController::class, 'serveImage'])->name('file.serve.image');
+Route::post('/files/upload', [FileController::class, 'upload'])->name('file.upload');
+
+// Routes admin pour la gestion des fichiers
+Route::prefix('admin')->middleware(['auth.admin'])->group(function () {
+    Route::get('/storage/stats', [FileController::class, 'storageStats'])->name('admin.storage.stats');
+    Route::post('/storage/cleanup', [FileController::class, 'cleanup'])->name('admin.storage.cleanup');
+});
 
 // Route de test temporaire (à supprimer après résolution)
 Route::get('/test-language', function() {
@@ -70,6 +79,11 @@ Route::prefix('admin')->group(function () {
         // Statistiques de vues
         Route::get('statistics', [StatisticsController::class, 'index'])->name('admin.statistics');
         Route::get('statistics/export', [StatisticsController::class, 'exportCsv'])->name('admin.statistics.export');
+        
+        // Gestion du stockage
+        Route::get('storage', [StorageController::class, 'index'])->name('admin.storage.index');
+        Route::post('storage/cleanup', [StorageController::class, 'cleanup'])->name('admin.storage.cleanup');
+        Route::get('storage/stats', [StorageController::class, 'stats'])->name('admin.storage.stats');
     });
 });
 

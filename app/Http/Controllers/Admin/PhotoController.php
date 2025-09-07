@@ -5,9 +5,17 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Photo;
+use App\Services\FileCompressionService;
 
 class PhotoController extends Controller
 {
+    protected $compressionService;
+
+    public function __construct(FileCompressionService $compressionService)
+    {
+        $this->compressionService = $compressionService;
+    }
+
     public function index()
     {
         $photos = Photo::latest()->paginate(12);
@@ -42,12 +50,16 @@ class PhotoController extends Controller
         $validated['is_published'] = true;
         $validated['published_at'] = now();
 
-        // Gérer le téléchargement de fichier
+        // Gérer le téléchargement et compression de fichier
         if ($request->hasFile('image_file')) {
-            $file = $request->file('image_file');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $path = $file->storeAs('photos', $filename, 'public');
-            $validated['image_url'] = route('file.serve', ['type' => 'photos', 'filename' => $filename]);
+            try {
+                $file = $request->file('image_file');
+                $compressedPath = $this->compressionService->compressSingleImage($file, 'photos');
+                $filename = basename($compressedPath);
+                $validated['image_url'] = route('file.serve', ['type' => 'photos', 'filename' => $filename]);
+            } catch (\Exception $e) {
+                return back()->withErrors(['image_file' => 'Erreur lors de la compression de l\'image: ' . $e->getMessage()]);
+            }
         }
 
         Photo::create($validated);
@@ -87,12 +99,16 @@ class PhotoController extends Controller
         $validated['slug'] = \Str::slug($validated['title']);
         $validated['photo_date'] = $validated['event_date'] ?? $photo->photo_date;
 
-        // Gérer le téléchargement de fichier
+        // Gérer le téléchargement et compression de fichier
         if ($request->hasFile('image_file')) {
-            $file = $request->file('image_file');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $path = $file->storeAs('photos', $filename, 'public');
-            $validated['image_url'] = route('file.serve', ['type' => 'photos', 'filename' => $filename]);
+            try {
+                $file = $request->file('image_file');
+                $compressedPath = $this->compressionService->compressSingleImage($file, 'photos');
+                $filename = basename($compressedPath);
+                $validated['image_url'] = route('file.serve', ['type' => 'photos', 'filename' => $filename]);
+            } catch (\Exception $e) {
+                return back()->withErrors(['image_file' => 'Erreur lors de la compression de l\'image: ' . $e->getMessage()]);
+            }
         }
 
         $photo->update($validated);
