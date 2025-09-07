@@ -11,7 +11,9 @@ use App\Http\Controllers\Admin\VideoController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\SocialLinkController;
 use App\Http\Controllers\Admin\BiographyController;
+use App\Http\Controllers\Admin\StatisticsController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\FileController;
 
 // Route d'accueil
 Route::get('/', function () {
@@ -20,6 +22,9 @@ Route::get('/', function () {
 
 // Route pour changer de langue (accessible partout)
 Route::post('/language/switch', [LanguageController::class, 'switch'])->name('language.switch');
+
+// Routes pour servir les fichiers
+Route::get('/files/{type}/{filename}', [FileController::class, 'serve'])->name('file.serve');
 
 // Route de test temporaire (à supprimer après résolution)
 Route::get('/test-language', function() {
@@ -61,6 +66,10 @@ Route::prefix('admin')->group(function () {
         
         // Biographie
         Route::resource('biographies', BiographyController::class)->names('admin.biographies');
+        
+        // Statistiques de vues
+        Route::get('statistics', [StatisticsController::class, 'index'])->name('admin.statistics');
+        Route::get('statistics/export', [StatisticsController::class, 'exportCsv'])->name('admin.statistics.export');
     });
 });
 

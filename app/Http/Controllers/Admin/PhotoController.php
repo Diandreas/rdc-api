@@ -47,7 +47,7 @@ class PhotoController extends Controller
             $file = $request->file('image_file');
             $filename = time() . '_' . $file->getClientOriginalName();
             $path = $file->storeAs('photos', $filename, 'public');
-            $validated['image_url'] = asset('storage/' . $path);
+            $validated['image_url'] = route('file.serve', ['type' => 'photos', 'filename' => $filename]);
         }
 
         Photo::create($validated);
@@ -92,7 +92,7 @@ class PhotoController extends Controller
             $file = $request->file('image_file');
             $filename = time() . '_' . $file->getClientOriginalName();
             $path = $file->storeAs('photos', $filename, 'public');
-            $validated['image_url'] = asset('storage/' . $path);
+            $validated['image_url'] = route('file.serve', ['type' => 'photos', 'filename' => $filename]);
         }
 
         $photo->update($validated);

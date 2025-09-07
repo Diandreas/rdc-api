@@ -49,7 +49,7 @@ class VideoController extends Controller
             $videoFile = $request->file('video_file');
             $videoFileName = time() . '_' . Str::slug(pathinfo($videoFile->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $videoFile->getClientOriginalExtension();
             $videoPath = $videoFile->storeAs('videos', $videoFileName, 'public');
-            $validated['video_url'] = asset('storage/' . $videoPath);
+            $validated['video_url'] = route('file.serve', ['type' => 'videos', 'filename' => $videoFileName]);
         }
 
         // Handle thumbnail file upload
@@ -57,7 +57,7 @@ class VideoController extends Controller
             $thumbnailFile = $request->file('thumbnail_file');
             $thumbnailFileName = time() . '_thumb_' . Str::slug(pathinfo($thumbnailFile->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $thumbnailFile->getClientOriginalExtension();
             $thumbnailPath = $thumbnailFile->storeAs('thumbnails', $thumbnailFileName, 'public');
-            $validated['thumbnail_url'] = asset('storage/' . $thumbnailPath);
+            $validated['thumbnail_url'] = route('file.serve', ['type' => 'thumbnails', 'filename' => $thumbnailFileName]);
         }
         
         // Generate unique slug from title
@@ -125,7 +125,7 @@ class VideoController extends Controller
             $videoFile = $request->file('video_file');
             $videoFileName = time() . '_' . Str::slug(pathinfo($videoFile->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $videoFile->getClientOriginalExtension();
             $videoPath = $videoFile->storeAs('videos', $videoFileName, 'public');
-            $validated['video_url'] = asset('storage/' . $videoPath);
+            $validated['video_url'] = route('file.serve', ['type' => 'videos', 'filename' => $videoFileName]);
         }
 
         // Handle thumbnail file upload
@@ -133,7 +133,7 @@ class VideoController extends Controller
             $thumbnailFile = $request->file('thumbnail_file');
             $thumbnailFileName = time() . '_thumb_' . Str::slug(pathinfo($thumbnailFile->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $thumbnailFile->getClientOriginalExtension();
             $thumbnailPath = $thumbnailFile->storeAs('thumbnails', $thumbnailFileName, 'public');
-            $validated['thumbnail_url'] = asset('storage/' . $thumbnailPath);
+            $validated['thumbnail_url'] = route('file.serve', ['type' => 'thumbnails', 'filename' => $thumbnailFileName]);
         }
         
         // Generate unique slug from title if title has changed

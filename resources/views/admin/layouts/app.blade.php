@@ -157,6 +157,13 @@
                             <span>{{ __('admin.biographies') }}</span>
                         </a>
                     </li>
+                    
+                    <li>
+                        <a href="{{ route('admin.statistics') }}" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 {{ request()->routeIs('admin.statistics*') ? 'bg-blue-50 dark:bg-gray-700 text-blue-600 dark:text-blue-400' : '' }}">
+                            <i class="fas fa-chart-line w-5 h-5 mr-3"></i>
+                            <span>Statistiques</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </aside>

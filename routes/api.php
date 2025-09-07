@@ -2,6 +2,11 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\SpeechController;
+use App\Http\Controllers\Api\NewsController;
+use App\Http\Controllers\Api\PhotoController;
+use App\Http\Controllers\Api\VideoController;
 
 // Test simple
 Route::get('test', function () {
@@ -80,53 +85,22 @@ Route::prefix('v1')->group(function () {
         ]);
     });
     
-    Route::get('categories', function () {
-        try {
-            $categories = \App\Models\Category::all();
-            return response()->json([
-                'success' => true,
-                'data' => $categories,
-                'count' => $categories->count()
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'error' => $e->getMessage()
-            ], 500);
-        }
-    });
+    // Routes avec comptage des vues automatique
+    Route::get('categories', [CategoryController::class, 'index']);
+    Route::get('categories/{id}', [CategoryController::class, 'show']);
+    Route::get('categories/type/{type}', [CategoryController::class, 'byType']);
     
-    Route::get('speeches', function () {
-        try {
-            $speeches = \App\Models\Speech::with(['category'])->get();
-            return response()->json([
-                'success' => true,
-                'data' => $speeches,
-                'count' => $speeches->count()
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'error' => $e->getMessage()
-            ], 500);
-        }
-    });
+    Route::get('speeches', [SpeechController::class, 'index']);
+    Route::get('speeches/{id}', [SpeechController::class, 'show']);
     
-    Route::get('news', function () {
-        try {
-            $news = \App\Models\News::with(['category'])->get();
-            return response()->json([
-                'success' => true,
-                'data' => $news,
-                'count' => $news->count()
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'error' => $e->getMessage()
-            ], 500);
-        }
-    });
+    Route::get('news', [NewsController::class, 'index']);
+    Route::get('news/{id}', [NewsController::class, 'show']);
+    
+    Route::get('photos', [PhotoController::class, 'index']);
+    Route::get('photos/{id}', [PhotoController::class, 'show']);
+    
+    Route::get('videos', [VideoController::class, 'index']);
+    Route::get('videos/{id}', [VideoController::class, 'show']);
     
     Route::get('quotes', function () {
         try {
