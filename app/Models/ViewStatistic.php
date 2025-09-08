@@ -15,12 +15,12 @@ class ViewStatistic extends Model
         'viewable_type',
         'viewable_id',
         'date',
-        'views_count'
+        'views'
     ];
 
     protected $casts = [
         'date' => 'date',
-        'views_count' => 'integer'
+        'views' => 'integer'
     ];
 
     /**
@@ -38,14 +38,14 @@ class ViewStatistic extends Model
     {
         $today = Carbon::today();
         
-        static::updateOrCreate(
-            [
-                'viewable_type' => get_class($model),
-                'viewable_id' => $model->id,
-                'date' => $today
-            ],
-            ['views_count' => DB::raw('views_count + 1')]
-        );
+        $stat = static::firstOrNew([
+            'viewable_type' => get_class($model),
+            'viewable_id' => $model->id,
+            'date' => $today
+        ]);
+        
+        $stat->views = ($stat->views ?? 0) + 1;
+        $stat->save();
     }
 
     /**

@@ -16,11 +16,11 @@ return new class extends Migration
             $table->string('viewable_type'); // Type de modèle (Category, Speech, etc.)
             $table->unsignedBigInteger('viewable_id'); // ID du modèle
             $table->date('date'); // Date de la vue
-            $table->unsignedInteger('views_count')->default(1); // Nombre de vues pour ce jour
+            $table->unsignedInteger('views')->default(1); // Nombre de vues pour ce jour
             $table->timestamps();
 
             // Index composé pour optimiser les requêtes
-            $table->unique(['viewable_type', 'viewable_id', 'date']);
+            $table->index(['viewable_type', 'viewable_id', 'date']);
             $table->index(['viewable_type', 'date']);
             $table->index(['date']);
         });
