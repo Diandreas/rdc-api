@@ -71,14 +71,18 @@
                         <label for="image_url" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             URL de l'image
                         </label>
-                        <input type="url" id="image_url" name="image_url" value="{{ old('image_url', $news->image_url) }}"
+                        <input type="url" id="image_url" name="image_url" value="{{ old('image_url', $news->getFirstMediaUrl('featured_images')) }}"
                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                                placeholder="https://example.com/image.jpg">
-                        @if($news->image_url)
-                            <div class="mt-2">
-                                <img src="{{ $news->image_url }}" alt="Image actuelle" class="w-32 h-20 object-cover rounded">
-                            </div>
-                        @endif
+                        
+                        <!-- Zone d'aperçu de l'image -->
+                        <div class="mt-4">
+                            <img id="image_preview" 
+                                 src="{{ $news->getFirstMediaUrl('featured_images') ?: 'https://via.placeholder.com/300x150.png?text=Aperçu' }}" 
+                                 alt="Aperçu de l'image" 
+                                 class="w-full max-w-sm h-auto object-cover rounded-md border border-gray-200 dark:border-gray-700">
+                        </div>
+                        
                         @error('image_url')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -230,6 +234,24 @@ document.addEventListener('DOMContentLoaded', function() {
     const excerptCount = document.getElementById('excerpt-count');
     const publishNowCheckbox = document.getElementById('publish_now');
     const publishedAtInput = document.getElementById('published_at');
+    const imageUrlInput = document.getElementById('image_url');
+    const imagePreview = document.getElementById('image_preview');
+    const placeholderUrl = 'https://via.placeholder.com/300x150.png?text=Aperçu';
+
+    // Gestion de l'aperçu de l'image
+    imageUrlInput.addEventListener('input', function() {
+        const url = this.value;
+        if (url && (url.startsWith('http://') || url.startsWith('https://'))) {
+            imagePreview.src = url;
+        } else {
+            imagePreview.src = placeholderUrl;
+        }
+    });
+
+    // Gestion des erreurs d'image
+    imagePreview.addEventListener('error', function() {
+        this.src = placeholderUrl;
+    });
 
     // Compteur de caractères pour l'extrait
     function updateExcerptCount() {
