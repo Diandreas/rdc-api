@@ -87,3 +87,6 @@ Route::prefix('admin')->group(function () {
     });
 });
 
+
+// Publications PDF
+Route::resource('admin/publications', App\Http\Controllers\Admin\PublicationController::class)->except(['show', 'edit', 'update']);

@@ -140,3 +140,7 @@ Route::prefix('v1')->group(function () {
     });
     
 });
+
+// Publications PDF
+Route::apiResource('publications', App\Http\Controllers\Api\PublicationController::class)->only(['index', 'show']);
+Route::get('publications/{id}/download', [App\Http\Controllers\Api\PublicationController::class, 'download']);

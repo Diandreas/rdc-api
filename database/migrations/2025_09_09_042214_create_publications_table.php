@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('view_statistics', function (Blueprint $table) {
-            $table->unsignedInteger('views')->default(1);
+        Schema::create('publications', function (Blueprint $table) {
+            $table->id();
+            $table->string('title');
+            $table->text('description')->nullable();
+            $table->string('file_path');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('view_statistics', function (Blueprint $table) {
-            $table->dropColumn('views');
-        });
+        Schema::dropIfExists('publications');
     }
 };
