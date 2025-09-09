@@ -31,6 +31,7 @@ class PublicationController extends Controller
     public function download($id)
     {
         $publication = Publication::findOrFail($id);
-        return Storage::disk('public')->download($publication->file_path, $publication->title . '.pdf');
+        // Redirect to the file URL instead of serving it from local storage
+        return redirect($publication->file_path);
     }
 }
