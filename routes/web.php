@@ -84,9 +84,8 @@ Route::prefix('admin')->group(function () {
         Route::get('storage', [StorageController::class, 'index'])->name('admin.storage.index');
         Route::post('storage/cleanup', [StorageController::class, 'cleanup'])->name('admin.storage.cleanup');
         Route::get('storage/stats', [StorageController::class, 'stats'])->name('admin.storage.stats');
+        
+        // Publications
+        Route::resource('publications', \App\Http\Controllers\Admin\PublicationController::class)->except(['show', 'edit', 'update'])->names('admin.publications');
     });
 });
-
-
-// Publications PDF
-Route::resource('admin/publications', App\Http\Controllers\Admin\PublicationController::class)->except(['show', 'edit', 'update']);
