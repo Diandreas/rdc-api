@@ -31,13 +31,23 @@ class NewsController extends Controller
             'is_featured' => 'boolean',
             'priority' => 'required|in:low,medium,high,urgent',
             'published_at' => 'nullable|date',
+            'image_url' => 'nullable|url',
         ]);
 
         $validated['is_featured'] = $request->has('is_featured');
         $validated['slug'] = \Str::slug($validated['title']);
         $validated['published_at'] = $validated['published_at'] ?? now();
 
-        News::create($validated);
+        $news = News::create($validated);
+
+        if ($request->filled('image_url')) {
+            try {
+                $news->addMediaFromUrl($request->input('image_url'))->toMediaCollection('featured_images');
+            } catch (\Exception $e) {
+                // Optionnel: logger l\'erreur si le lien est invalide ou inaccessible
+                \Log::error('Impossible de charger l\'image depuis l\'URL : ' . $e->getMessage());
+            }
+        }
 
         return redirect()->route('admin.news.index')
             ->with('success', 'Actualité créée avec succès.');
@@ -64,12 +74,23 @@ class NewsController extends Controller
             'is_featured' => 'boolean',
             'priority' => 'required|in:low,medium,high,urgent',
             'published_at' => 'nullable|date',
+            'image_url' => 'nullable|url',
         ]);
 
         $validated['is_featured'] = $request->has('is_featured');
         $validated['slug'] = \Str::slug($validated['title']);
 
         $news->update($validated);
+
+        if ($request->filled('image_url')) {
+            try {
+                // Supprime l\'ancienne image avant d\'ajouter la nouvelle
+                $news->clearMediaCollection('featured_images');
+                $news->addMediaFromUrl($request->input('image_url'))->toMediaCollection('featured_images');
+            } catch (\Exception $e) {
+                \Log::error('Impossible de mettre à jour l\'image depuis l\'URL : ' . $e->getMessage());
+            }
+        }
 
         return redirect()->route('admin.news.index')
             ->with('success', 'Actualité mise à jour avec succès.');
