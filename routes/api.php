@@ -138,9 +138,9 @@ Route::prefix('v1')->group(function () {
     Route::get('files/{type}/{folder}/{filename}', function($type, $folder, $filename) {
         return redirect()->route('file.serve', ['type' => $folder, 'filename' => $filename]);
     });
+
+    // Publications PDF
+    Route::apiResource('publications', App\Http\Controllers\Api\PublicationController::class)->only(['index', 'show']);
+    Route::get('publications/{id}/download', [App\Http\Controllers\Api\PublicationController::class, 'download']);
     
 });
-
-// Publications PDF
-Route::apiResource('publications', App\Http\Controllers\Api\PublicationController::class)->only(['index', 'show']);
-Route::get('publications/{id}/download', [App\Http\Controllers\Api\PublicationController::class, 'download']);

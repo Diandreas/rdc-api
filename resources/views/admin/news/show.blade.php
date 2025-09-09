@@ -67,22 +67,22 @@
             </div>
 
             <!-- Médias -->
-            @if($news->image_url || $news->video_url)
+            @if($news->getFirstMediaUrl('featured_images') || $news->video_url)
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Médias</h3>
                     
-                    @if($news->image_url)
+                    @if($news->getFirstMediaUrl('featured_images'))
                         <div class="mb-4">
                             <h4 class="text-md font-medium text-gray-900 dark:text-white mb-2">Image</h4>
                             <div class="relative">
-                                <img src="{{ $news->image_url }}" alt="{{ $news->title }}" 
+                                <img src="{{ $news->getFirstMediaUrl('featured_images') }}" alt="{{ $news->title }}" 
                                      class="w-full h-64 object-cover rounded-lg shadow-md">
-                                <a href="{{ $news->image_url }}" target="_blank" 
+                                <a href="{{ $news->getFirstMediaUrl('featured_images') }}" target="_blank" 
                                    class="absolute top-2 right-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-sm hover:bg-opacity-75">
                                     <i class="fas fa-external-link-alt mr-1"></i>Voir
                                 </a>
                             </div>
-                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{{ $news->image_url }}</p>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{{ $news->getFirstMediaUrl('featured_images') }}</p>
                         </div>
                     @endif
 
