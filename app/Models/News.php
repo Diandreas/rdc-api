@@ -42,6 +42,19 @@ class News extends Model implements HasMedia
         'published_at' => 'datetime'
     ];
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['featured_image_url'];
+
+    // Accessor for the featured image URL
+    public function getFeaturedImageUrlAttribute()
+    {
+        return $this->getFirstMediaUrl('featured_images');
+    }
+
     // Relations
     public function category()
     {
