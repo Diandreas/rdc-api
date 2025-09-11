@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\SpeechController;
 use App\Http\Controllers\Api\NewsController;
 use App\Http\Controllers\Api\PhotoController;
 use App\Http\Controllers\Api\VideoController;
+use App\Http\Controllers\Api\StatisticsController;
 
 // Test simple
 Route::get('test', function () {
@@ -101,6 +102,8 @@ Route::prefix('v1')->group(function () {
     
     Route::get('videos', [VideoController::class, 'index']);
     Route::get('videos/{id}', [VideoController::class, 'show']);
+
+    Route::apiResource('biographies', \App\Http\Controllers\Api\BiographyController::class)->only(['index', 'show']);
     
     Route::get('quotes', function () {
         try {
@@ -142,5 +145,11 @@ Route::prefix('v1')->group(function () {
     // Publications PDF
     Route::apiResource('publications', App\Http\Controllers\Api\PublicationController::class)->only(['index', 'show']);
     Route::get('publications/{id}/download', [App\Http\Controllers\Api\PublicationController::class, 'download']);
+
+    // Statistics
+    Route::get('stats', [StatisticsController::class, 'index']);
+    Route::get('presidential-acts/statistics', function () {
+        return redirect('api/v1/stats');
+    });
     
 });
