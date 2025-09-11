@@ -71,6 +71,12 @@
                         @error('image_url')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
+                        
+                        <!-- Prévisualisation de l'image -->
+                        <div id="image-preview" class="mt-3 hidden">
+                            <img id="preview-img" src="" alt="Prévisualisation" class="max-w-full h-48 object-cover rounded-lg border">
+                            <p class="text-sm text-gray-500 mt-1">Prévisualisation de l'image</p>
+                        </div>
                     </div>
 
                     <!-- URL de la vidéo -->
@@ -157,9 +163,9 @@
 
                         <!-- À la une -->
                         <div class="flex items-center">
-                            <input type="checkbox" id="featured" name="featured" value="1" {{ old('featured') ? 'checked' : '' }}
+                            <input type="checkbox" id="is_featured" name="is_featured" value="1" {{ old('is_featured') ? 'checked' : '' }}
                                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                            <label for="featured" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
+                            <label for="is_featured" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
                                 Mettre à la une
                             </label>
                         </div>
@@ -196,6 +202,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const excerptCount = document.getElementById('excerpt-count');
     const publishNowCheckbox = document.getElementById('publish_now');
     const publishedAtInput = document.getElementById('published_at');
+    const imageUrlInput = document.getElementById('image_url');
+    const imagePreview = document.getElementById('image-preview');
+    const previewImg = document.getElementById('preview-img');
 
     // Compteur de caractères pour l'extrait
     function updateExcerptCount() {
@@ -213,6 +222,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
     excerptTextarea.addEventListener('input', updateExcerptCount);
     updateExcerptCount();
+
+    // Prévisualisation de l'image
+    function updateImagePreview() {
+        const url = imageUrlInput.value.trim();
+        
+        if (url && isValidUrl(url)) {
+            previewImg.src = url;
+            previewImg.onload = function() {
+                imagePreview.classList.remove('hidden');
+            };
+            previewImg.onerror = function() {
+                imagePreview.classList.add('hidden');
+            };
+        } else {
+            imagePreview.classList.add('hidden');
+        }
+    }
+
+    function isValidUrl(string) {
+        try {
+            new URL(string);
+            return true;
+        } catch (_) {
+            return false;
+        }
+    }
+
+    imageUrlInput.addEventListener('input', updateImagePreview);
+    imageUrlInput.addEventListener('blur', updateImagePreview);
 
     // Publier immédiatement
     publishNowCheckbox.addEventListener('change', function() {

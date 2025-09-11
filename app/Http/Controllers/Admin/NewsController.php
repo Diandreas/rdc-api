@@ -32,6 +32,8 @@ class NewsController extends Controller
             'priority' => 'required|in:low,medium,high,urgent',
             'published_at' => 'nullable|date',
             'image_url' => 'nullable|url',
+            'video_url' => 'nullable|url',
+            'location' => 'nullable|string',
         ]);
 
         $validated['is_featured'] = $request->has('is_featured');
@@ -75,6 +77,8 @@ class NewsController extends Controller
             'priority' => 'required|in:low,medium,high,urgent',
             'published_at' => 'nullable|date',
             'image_url' => 'nullable|url',
+            'video_url' => 'nullable|url',
+            'location' => 'nullable|string',
         ]);
 
         $validated['is_featured'] = $request->has('is_featured');

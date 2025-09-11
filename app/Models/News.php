@@ -29,7 +29,10 @@ class News extends Model implements HasMedia
         'is_published',
         'views_count',
         'shares_count',
-        'published_at'
+        'published_at',
+        'image_url',
+        'video_url',
+        'location'
     ];
 
     protected $casts = [
