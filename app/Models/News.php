@@ -55,7 +55,7 @@ class News extends Model implements HasMedia
     // Accessor for the featured image URL
     public function getFeaturedImageUrlAttribute()
     {
-        return $this->getFirstMediaUrl('featured_images');
+        return $this->image_url;
     }
 
     // Relations

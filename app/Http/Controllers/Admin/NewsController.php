@@ -42,15 +42,6 @@ class NewsController extends Controller
 
         $news = News::create($validated);
 
-        if ($request->filled('image_url')) {
-            try {
-                $news->addMediaFromUrl($request->input('image_url'))->toMediaCollection('featured_images');
-            } catch (\Exception $e) {
-                // Optionnel: logger l\'erreur si le lien est invalide ou inaccessible
-                \Log::error('Impossible de charger l\'image depuis l\'URL : ' . $e->getMessage());
-            }
-        }
-
         return redirect()->route('admin.news.index')
             ->with('success', 'Actualité créée avec succès.');
     }
@@ -85,16 +76,6 @@ class NewsController extends Controller
         $validated['slug'] = \Str::slug($validated['title']);
 
         $news->update($validated);
-
-        if ($request->filled('image_url')) {
-            try {
-                // Supprime l\'ancienne image avant d\'ajouter la nouvelle
-                $news->clearMediaCollection('featured_images');
-                $news->addMediaFromUrl($request->input('image_url'))->toMediaCollection('featured_images');
-            } catch (\Exception $e) {
-                \Log::error('Impossible de mettre à jour l\'image depuis l\'URL : ' . $e->getMessage());
-            }
-        }
 
         return redirect()->route('admin.news.index')
             ->with('success', 'Actualité mise à jour avec succès.');

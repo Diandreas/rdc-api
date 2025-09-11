@@ -34,14 +34,17 @@
                         </div>
                     </div>
                     <div class="flex space-x-2">
-                        @if($news->featured)
+                        @if($news->is_featured)
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
                                 <i class="fas fa-star mr-1"></i>À la une
                             </span>
                         @endif
-                        @if($news->priority)
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">
-                                <i class="fas fa-exclamation-triangle mr-1"></i>Priorité
+                        @if($news->priority && $news->priority !== 'low')
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+                                @if($news->priority === 'urgent') bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200
+                                @elseif($news->priority === 'high') bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200
+                                @else bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 @endif">
+                                <i class="fas fa-exclamation-triangle mr-1"></i>{{ ucfirst($news->priority) }}
                             </span>
                         @endif
                     </div>
@@ -67,22 +70,22 @@
             </div>
 
             <!-- Médias -->
-            @if($news->getFirstMediaUrl('featured_images') || $news->video_url)
+            @if($news->image_url || $news->video_url)
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Médias</h3>
                     
-                    @if($news->getFirstMediaUrl('featured_images'))
+                    @if($news->image_url)
                         <div class="mb-4">
                             <h4 class="text-md font-medium text-gray-900 dark:text-white mb-2">Image</h4>
                             <div class="relative">
-                                <img src="{{ $news->getFirstMediaUrl('featured_images') }}" alt="{{ $news->title }}" 
+                                <img src="{{ $news->image_url }}" alt="{{ $news->title }}" 
                                      class="w-full h-64 object-cover rounded-lg shadow-md">
-                                <a href="{{ $news->getFirstMediaUrl('featured_images') }}" target="_blank" 
+                                <a href="{{ $news->image_url }}" target="_blank" 
                                    class="absolute top-2 right-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-sm hover:bg-opacity-75">
                                     <i class="fas fa-external-link-alt mr-1"></i>Voir
                                 </a>
                             </div>
-                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{{ $news->getFirstMediaUrl('featured_images') }}</p>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400 break-all">{{ $news->image_url }}</p>
                         </div>
                     @endif
 
@@ -94,7 +97,7 @@
                                    class="inline-flex items-center text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
                                     <i class="fas fa-play mr-2"></i>Voir la vidéo
                                 </a>
-                                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{{ $news->video_url }}</p>
+                                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400 break-all">{{ $news->video_url }}</p>
                             </div>
                         </div>
                     @endif
@@ -123,6 +126,22 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Localisation</label>
                             <p class="text-gray-900 dark:text-white">{{ $news->location }}</p>
+                        </div>
+                    @endif
+
+                    @if($news->priority)
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Priorité</label>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium mt-1
+                                @if($news->priority === 'urgent') bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200
+                                @elseif($news->priority === 'high') bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200
+                                @elseif($news->priority === 'medium') bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
+                                @else bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200 @endif">
+                                @if($news->priority === 'urgent') Urgente
+                                @elseif($news->priority === 'high') Élevée  
+                                @elseif($news->priority === 'medium') Normale
+                                @else Faible @endif
+                            </span>
                         </div>
                     @endif
 
