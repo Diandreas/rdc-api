@@ -24,23 +24,14 @@ class PublicationController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'file' => 'required|file|mimes:pdf|max:10240', // 10MB max
+            'pdf_url' => 'required|url',
         ]);
 
         $publication = Publication::create([
             'title' => $validated['title'],
             'description' => $validated['description'],
-            'file_path' => '',
+            'file_path' => $validated['pdf_url'],
         ]);
-
-        if ($request->hasFile('file')) {
-            $publication->addMediaFromRequest('file')
-                ->toMediaCollection('publications');
-            
-            $publication->update([
-                'file_path' => $publication->getFirstMediaUrl('publications')
-            ]);
-        }
 
         return redirect()->route('admin.publications.index')
             ->with('success', 'Publication créée avec succès.');
@@ -48,7 +39,6 @@ class PublicationController extends Controller
 
     public function destroy(Publication $publication)
     {
-        $publication->clearMediaCollection('publications');
         $publication->delete();
 
         return redirect()->route('admin.publications.index')
