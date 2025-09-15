@@ -55,9 +55,13 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
                                 <div class="flex-shrink-0 h-10 w-10">
-                                    <div class="h-10 w-10 rounded-full bg-red-100 dark:bg-red-900 flex items-center justify-center">
-                                        <i class="fas fa-file-pdf text-red-600 dark:text-red-400"></i>
-                                    </div>
+                                    @if(!empty($publication->preview_image_url))
+                                        <img src="{{ $publication->preview_image_url }}" alt="Aperçu" class="h-10 w-10 rounded object-cover border border-gray-200 dark:border-gray-700" onerror="this.style.display='none'">
+                                    @else
+                                        <div class="h-10 w-10 rounded-full bg-red-100 dark:bg-red-900 flex items-center justify-center">
+                                            <i class="fas fa-file-pdf text-red-600 dark:text-red-400"></i>
+                                        </div>
+                                    @endif
                                 </div>
                                 <div class="ml-4">
                                     <div class="text-sm font-medium text-gray-900 dark:text-white">
@@ -72,8 +76,8 @@
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            @if($publication->getFirstMediaUrl('publications'))
-                                <a href="{{ $publication->getFirstMediaUrl('publications') }}" target="_blank" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
+                            @if(!empty($publication->file_path))
+                                <a href="{{ $publication->file_path }}" target="_blank" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
                                     <i class="fas fa-download mr-1"></i>Télécharger PDF
                                 </a>
                             @else
@@ -85,8 +89,8 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <div class="flex space-x-2">
-                                @if($publication->getFirstMediaUrl('publications'))
-                                    <a href="{{ $publication->getFirstMediaUrl('publications') }}" target="_blank" class="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300" title="Voir le PDF">
+                                @if(!empty($publication->file_path))
+                                    <a href="{{ $publication->file_path }}" target="_blank" class="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300" title="Voir le PDF">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                 @endif

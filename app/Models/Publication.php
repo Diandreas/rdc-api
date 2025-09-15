@@ -14,6 +14,7 @@ class Publication extends Model implements HasMedia
         'title',
         'description',
         'file_path',
+        'preview_image_url',
     ];
 
     public function registerMediaCollections(): void

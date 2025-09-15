@@ -25,12 +25,14 @@ class PublicationController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'pdf_url' => 'required|url',
+            'preview_image_url' => 'nullable|url',
         ]);
 
         $publication = Publication::create([
             'title' => $validated['title'],
-            'description' => $validated['description'],
+            'description' => $validated['description'] ?? null,
             'file_path' => $validated['pdf_url'],
+            'preview_image_url' => $validated['preview_image_url'] ?? null,
         ]);
 
         return redirect()->route('admin.publications.index')

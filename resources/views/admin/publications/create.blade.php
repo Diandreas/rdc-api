@@ -68,6 +68,26 @@
                 @enderror
             </div>
 
+            <!-- URL de l'image de prévisualisation -->
+            <div>
+                <label for="preview_image_url" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    URL de l'image de prévisualisation
+                </label>
+                <input type="url"
+                       id="preview_image_url"
+                       name="preview_image_url"
+                       value="{{ old('preview_image_url') }}"
+                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white @error('preview_image_url') border-red-500 @enderror"
+                       placeholder="https://example.com/preview.jpg">
+                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                    <i class="fas fa-image mr-1"></i>
+                    Optionnel. L'image s'affichera comme vignette de la publication (formats: .jpg, .png, .webp, ...)
+                </p>
+                @error('preview_image_url')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
             <!-- Boutons d'action -->
             <div class="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200 dark:border-gray-700">
                 <a href="{{ route('admin.publications.index') }}" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200">
