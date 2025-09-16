@@ -105,6 +105,90 @@
                     @endforelse
                 </tbody>
             </table>
+            @if($photos->hasPages())
+                <div class="bg-white dark:bg-gray-800 px-4 py-3 flex items-center justify-between border-t border-gray-200 dark:border-gray-700 sm:px-6">
+                    <div class="flex-1 flex justify-between sm:hidden">
+                        @if($photos->onFirstPage())
+                            <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-300 bg-white dark:bg-gray-700 cursor-not-allowed">
+                                {{ __('pagination.previous') }}
+                            </span>
+                        @else
+                            <a href="{{ $photos->previousPageUrl() }}" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                {{ __('pagination.previous') }}
+                            </a>
+                        @endif
+                        
+                        @if($photos->hasMorePages())
+                            <a href="{{ $photos->nextPageUrl() }}" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                {{ __('pagination.next') }}
+                            </a>
+                        @else
+                            <span class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-300 bg-white dark:bg-gray-700 cursor-not-allowed">
+                                {{ __('pagination.next') }}
+                            </span>
+                        @endif
+                    </div>
+                    <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                        <div>
+                            <p class="text-sm text-gray-700 dark:text-gray-300">
+                                {{ __('pagination.showing') }}
+                                <span class="font-medium">{{ $photos->firstItem() }}</span>
+                                {{ __('pagination.to') }}
+                                <span class="font-medium">{{ $photos->lastItem() }}</span>
+                                {{ __('pagination.of') }}
+                                <span class="font-medium">{{ $photos->total() }}</span>
+                                {{ __('pagination.results') }}
+                            </p>
+                        </div>
+                        <div>
+                            <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                                {{-- Previous Page Link --}}
+                                @if($photos->onFirstPage())
+                                    <span class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white dark:bg-gray-800 text-sm font-medium text-gray-300 cursor-not-allowed">
+                                        <span class="sr-only">{{ __('pagination.previous') }}</span>
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                @else
+                                    <a href="{{ $photos->previousPageUrl() }}" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                        <span class="sr-only">{{ __('pagination.previous') }}</span>
+                                        <i class="fas fa-chevron-left"></i>
+                                    </a>
+                                @endif
+
+                                {{-- Pagination Elements --}}
+                                @foreach ($photos->getUrlRange(1, $photos->lastPage()) as $page => $url)
+                                    @if ($page == $photos->currentPage())
+                                        <span aria-current="page" class="z-10 bg-blue-50 dark:bg-blue-900 border-blue-500 text-blue-600 dark:text-blue-300 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                            {{ $page }}
+                                        </span>
+                                    @elseif ($page === 1 || $page === $photos->lastPage() || ($page >= $photos->currentPage() - 2 && $page <= $photos->currentPage() + 2))
+                                        <a href="{{ $url }}" class="bg-white dark:bg-gray-800 border-gray-300 text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                            {{ $page }}
+                                        </a>
+                                    @elseif (($page === $photos->currentPage() - 3 && $page > 2) || ($page === $photos->currentPage() + 3 && $page < $photos->lastPage() - 1))
+                                        <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-300">
+                                            ...
+                                        </span>
+                                    @endif
+                                @endforeach
+
+                                {{-- Next Page Link --}}
+                                @if($photos->hasMorePages())
+                                    <a href="{{ $photos->nextPageUrl() }}" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                        <span class="sr-only">{{ __('pagination.next') }}</span>
+                                        <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                @else
+                                    <span class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white dark:bg-gray-800 text-sm font-medium text-gray-300 cursor-not-allowed">
+                                        <span class="sr-only">{{ __('pagination.next') }}</span>
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                @endif
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
 </div>
