@@ -15,7 +15,7 @@ class NewsController extends Controller
     public function index()
     {
         try {
-            $news = News::with(['category'])->get();
+            $news = News::with(['category'])->latest('created_at')->get();
             
             // Incrémenter les vues pour toutes les actualités affichées
             foreach ($news as $article) {
