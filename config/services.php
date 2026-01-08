@@ -34,6 +34,11 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+    'fcm' => [
+        'enabled' => env('FCM_ENABLED', false),
+        'project_id' => env('FCM_PROJECT_ID'),
+        'service_account_path' => env('FCM_SERVICE_ACCOUNT_PATH'),
+        'topic_prefix' => env('FCM_TOPIC_PREFIX', 'fat_'),
+    ],
 
 ];
-

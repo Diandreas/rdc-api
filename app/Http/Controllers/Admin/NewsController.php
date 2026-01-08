@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\News;
 use App\Models\Category;
+use App\Services\FcmService;
+use Illuminate\Support\Str;
 
 class NewsController extends Controller
 {
@@ -41,6 +43,13 @@ class NewsController extends Controller
         $validated['published_at'] = $validated['published_at'] ?? now();
 
         $news = News::create($validated);
+
+        app(FcmService::class)->sendToTopic(
+            'news',
+            'Nouvelle actualité',
+            Str::limit($news->title, 120),
+            ['type' => 'news', 'id' => $news->id]
+        );
 
         return redirect()->route('admin.news.index')
             ->with('success', 'Actualité créée avec succès.');

@@ -10,6 +10,7 @@ use App\Http\Resources\SpeechResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
+use App\Services\FcmService;
 
 class SpeechController extends Controller
 {
@@ -103,6 +104,15 @@ class SpeechController extends Controller
 
         $speech->load(['category', 'tags']);
 
+        if ($speech->is_published) {
+            app(FcmService::class)->sendToTopic(
+                'speeches',
+                'Nouveau discours',
+                Str::limit($speech->title, 120),
+                ['type' => 'speech', 'id' => $speech->id]
+            );
+        }
+
         return response()->json([
             'success' => true,
             'message' => 'Discours créé avec succès',
@@ -186,6 +196,13 @@ class SpeechController extends Controller
             'is_published' => true,
             'published_at' => now()
         ]);
+
+        app(FcmService::class)->sendToTopic(
+            'speeches',
+            'Nouveau discours',
+            Str::limit($speech->title, 120),
+            ['type' => 'speech', 'id' => $speech->id]
+        );
 
         return response()->json([
             'success' => true,

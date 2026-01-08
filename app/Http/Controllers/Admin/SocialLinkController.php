@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SocialLink;
+use App\Services\FcmService;
+use Illuminate\Support\Str;
 
 class SocialLinkController extends Controller
 {
@@ -37,7 +39,14 @@ class SocialLinkController extends Controller
         $validated['is_featured'] = $request->has('is_featured');
         $validated['is_active'] = $request->has('is_active', true);
 
-        SocialLink::create($validated);
+        $act = SocialLink::create($validated);
+
+        app(FcmService::class)->sendToTopic(
+            'acts',
+            'Nouvel acte du chef de l\'État',
+            Str::limit($act->title, 120),
+            ['type' => 'act', 'id' => $act->id]
+        );
 
         return redirect()->route('admin.social-links.index')
             ->with('success', 'Acte du chef de l\'état ajouté avec succès.');

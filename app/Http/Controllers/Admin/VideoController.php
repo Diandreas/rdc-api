@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Video;
 use App\Services\FileCompressionService;
+use App\Services\FcmService;
 use Illuminate\Support\Str;
 
 class VideoController extends Controller
@@ -100,7 +101,14 @@ class VideoController extends Controller
             }
         }
 
-        Video::create($validated);
+        $video = Video::create($validated);
+
+        app(FcmService::class)->sendToTopic(
+            'videos',
+            'Nouvelle vidéo',
+            Str::limit($video->title, 120),
+            ['type' => 'video', 'id' => $video->id]
+        );
 
         return redirect()->route('admin.videos.index')
             ->with('success', __('admin.video_created_successfully'));

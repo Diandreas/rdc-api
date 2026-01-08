@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Speech;
 use App\Models\Category;
+use App\Services\FcmService;
+use Illuminate\Support\Str;
 
 class SpeechController extends Controller
 {
@@ -39,7 +41,14 @@ class SpeechController extends Controller
         $validated['is_featured'] = $request->has('is_featured');
         $validated['slug'] = \Str::slug($validated['title']);
 
-        Speech::create($validated);
+        $speech = Speech::create($validated);
+
+        app(FcmService::class)->sendToTopic(
+            'speeches',
+            'Nouveau discours',
+            Str::limit($speech->title, 120),
+            ['type' => 'speech', 'id' => $speech->id]
+        );
 
         return redirect()->route('admin.speeches.index')
             ->with('success', 'Discours créé avec succès.');
