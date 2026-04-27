@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Photo;
 use App\Services\FileCompressionService;
-use App\Services\FcmService;
-use Illuminate\Support\Str;
 
 class PhotoController extends Controller
 {
@@ -65,13 +63,6 @@ class PhotoController extends Controller
         }
 
         $photo = Photo::create($validated);
-
-        app(FcmService::class)->sendToTopic(
-            'gallery',
-            'Nouvelle photo',
-            Str::limit($photo->title, 120),
-            ['type' => 'photo', 'id' => $photo->id]
-        );
 
         return redirect()->route('admin.photos.index')
             ->with('success', 'Photo ajoutée avec succès.');

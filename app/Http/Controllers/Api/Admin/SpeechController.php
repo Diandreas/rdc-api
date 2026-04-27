@@ -104,15 +104,6 @@ class SpeechController extends Controller
 
         $speech->load(['category', 'tags']);
 
-        if ($speech->is_published) {
-            app(FcmService::class)->sendToTopic(
-                'speeches',
-                'Nouveau discours',
-                Str::limit($speech->title, 120),
-                ['type' => 'speech', 'id' => $speech->id]
-            );
-        }
-
         return response()->json([
             'success' => true,
             'message' => 'Discours créé avec succès',

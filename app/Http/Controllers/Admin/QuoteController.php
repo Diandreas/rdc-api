@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Quote;
-use App\Services\FcmService;
-use Illuminate\Support\Str;
 
 class QuoteController extends Controller
 {
@@ -49,13 +47,6 @@ class QuoteController extends Controller
         ];
 
         $quote = Quote::create($data);
-
-        app(FcmService::class)->sendToTopic(
-            'quotes',
-            'Nouvelle citation',
-            Str::limit($quote->content ?? $validated['text'], 140),
-            ['type' => 'quote', 'id' => $quote->id]
-        );
 
         return redirect()->route('admin.quotes.index')
             ->with('success', 'Citation créée avec succès.');
