@@ -84,7 +84,7 @@ class ViewStatistic extends Model
             $query->where('date', '<=', $endDate);
         }
         
-        return $query->selectRaw('viewable_type, SUM(views_count) as total_views')
+        return $query->selectRaw('viewable_type, SUM(views) as total_views')
                     ->groupBy('viewable_type')
                     ->get()
                     ->keyBy('viewable_type');

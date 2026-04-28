@@ -58,32 +58,32 @@ class StatisticsController extends Controller
                 ->whereDate('date', '<=', $endDate)
                 ->where('viewable_type', 'App\\Models\\Speech')
                 ->whereIn('viewable_id', $category->speeches->pluck('id'))
-                ->sum('views_count');
+                ->sum('views');
 
             $newsViews = ViewStatistic::whereDate('date', '>=', $startDate)
                 ->whereDate('date', '<=', $endDate)
                 ->where('viewable_type', 'App\\Models\\News')
                 ->whereIn('viewable_id', $category->news->pluck('id'))
-                ->sum('views_count');
+                ->sum('views');
 
             $photosViews = ViewStatistic::whereDate('date', '>=', $startDate)
                 ->whereDate('date', '<=', $endDate)
                 ->where('viewable_type', 'App\\Models\\Photo')
                 ->whereIn('viewable_id', $category->photos->pluck('id'))
-                ->sum('views_count');
+                ->sum('views');
 
             $videosViews = ViewStatistic::whereDate('date', '>=', $startDate)
                 ->whereDate('date', '<=', $endDate)
                 ->where('viewable_type', 'App\\Models\\Video')
                 ->whereIn('viewable_id', $category->videos->pluck('id'))
-                ->sum('views_count');
+                ->sum('views');
 
             // Vues directes de la catégorie elle-même
             $categoryDirectViews = ViewStatistic::whereDate('date', '>=', $startDate)
                 ->whereDate('date', '<=', $endDate)
                 ->where('viewable_type', 'App\\Models\\Category')
                 ->where('viewable_id', $category->id)
-                ->sum('views_count');
+                ->sum('views');
 
             $categoryStats[] = [
                 'category' => $category,
@@ -109,7 +109,7 @@ class StatisticsController extends Controller
      */
     private function getDailyStats($startDate, $endDate)
     {
-        return ViewStatistic::selectRaw('date, SUM(views_count) as total_views')
+        return ViewStatistic::selectRaw('date, SUM(views) as total_views')
             ->whereDate('date', '>=', $startDate)
             ->whereDate('date', '<=', $endDate)
             ->groupBy('date')
@@ -126,7 +126,7 @@ class StatisticsController extends Controller
     private function getTopContent($startDate, $endDate, $limit = 10)
     {
         $topItems = ViewStatistic::with('viewable')
-            ->selectRaw('viewable_type, viewable_id, SUM(views_count) as total_views')
+            ->selectRaw('viewable_type, viewable_id, SUM(views) as total_views')
             ->whereDate('date', '>=', $startDate)
             ->whereDate('date', '<=', $endDate)
             ->groupBy('viewable_type', 'viewable_id')

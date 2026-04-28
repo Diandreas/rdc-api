@@ -104,7 +104,7 @@
                         Vues par catégorie
                     </h3>
                     <div class="space-y-4">
-                        @foreach($categoryStats->take(10) as $stat)
+                        @foreach(collect($categoryStats)->take(10) as $stat)
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center space-x-3">
                                     <div class="w-3 h-3 rounded-full" style="background-color: {{ $stat['category']->color }}"></div>
